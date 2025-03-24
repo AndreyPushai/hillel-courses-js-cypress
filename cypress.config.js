@@ -8,7 +8,8 @@ module.exports = defineConfig({
     },
     video: true,
     e2e: {
-        setupNodeEvents(on, config) {
+    specPattern: 'cypress/e2e/**/*.test.{js,jsx,ts,tsx}',
+    setupNodeEvents(on, config) {
             on('task', {
                 log(message) {
                     console.log(message)
