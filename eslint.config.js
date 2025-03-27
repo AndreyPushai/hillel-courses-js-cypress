@@ -1,7 +1,7 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
-import pluginCypress from "eslint-plugin-cypress";
+import pluginCypress from "eslint-plugin-cypress/flat";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -23,6 +23,7 @@ export default [
         rules: {
             "no-unused-vars": "off",
             "@typescript-eslint/no-unused-vars": "off",
+            "cypress/no-unnecessary-waiting": "off"
         }
     },
     {ignores: ["dist/"]}
