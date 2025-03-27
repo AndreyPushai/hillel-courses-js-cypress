@@ -1,6 +1,7 @@
-const { defineConfig } = require("cypress");
+import { defineConfig } from "cypress";
+import dotenvPlugin from 'cypress-dotenv';
 
-module.exports = defineConfig({
+export default defineConfig({
     retries: {
         // process.env.CI - змінна для встановлення повторюваного запуску на CI оточенні
         runMode: 2,
@@ -15,7 +16,11 @@ module.exports = defineConfig({
                     console.log(message)
                     return null
                 }
-        })
+        });
+
+        const updatedConfig = dotenvPlugin(config, null, true)
+        // continue loading other plugins
+        return updatedConfig
       // implement node event listeners here
       },
     },
