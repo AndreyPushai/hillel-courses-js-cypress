@@ -10,7 +10,14 @@
 //
 //
 // -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
+Cypress.Commands.add('login', (email=Cypress.env("username"), password=Cypress.env("password")) => {
+    cy.visit("https://qauto.forstudy.space", {
+        auth: {
+            username: email,
+            password: password
+        }
+    })
+});
 //
 //
 // -- This is a child command --

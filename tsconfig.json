@@ -6,6 +6,8 @@
     "skipLibCheck": true,
     "noEmitOnError": true,
     "moduleResolution": "node",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "types": ["cypress", "node"]
   }
 }
