@@ -1,3 +1,7 @@
+import {
+    LoginPopUp, Homepage
+} from "./poms";
+
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -10,7 +14,7 @@
 //
 //
 // -- This is a parent command --
-Cypress.Commands.add('login', (email=Cypress.env("username"), password=Cypress.env("password")) => {
+Cypress.Commands.add('authorizeToPortal', (email=Cypress.env("username"), password=Cypress.env("password")) => {
     cy.visit("https://qauto.forstudy.space", {
         auth: {
             username: email,
@@ -18,7 +22,34 @@ Cypress.Commands.add('login', (email=Cypress.env("username"), password=Cypress.e
         }
     })
 });
-//
+
+
+Cypress.Commands.add('login', (email, password) => {
+    cy.authorizeToPortal();
+
+    const homepage = new Homepage();
+    homepage.signInButton.click();
+
+    const loginPopUp = new LoginPopUp();
+    loginPopUp.fillAndSubmitForm(email, password);
+
+});
+
+
+Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
+  if (options && options.sensitive) {
+    // turn off original log
+    options.log = false
+    // create our own log with masked message
+    Cypress.log({
+      $el: element,
+      name: 'type',
+      message: '*'.repeat(text.length),
+    })
+  }
+
+  return originalFn(element, text, options)
+})
 //
 // -- This is a child command --
 // Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
