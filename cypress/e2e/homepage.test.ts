@@ -1,76 +1,43 @@
-const HEADER_LOCATORS = {
-    header: "header[class*='header']",
-    logoLink: "a[class='header_logo']",
-    logoImage: "a[class='header_logo'] svg",
-    navigation: "nav[class*='header_nav']",
-    homeLink: "nav a[class*='header-link']",
-    aboutButton: "button[appscrollto='aboutSection']",
-    contactsButton: "button[appscrollto='contactsSection']",
-    guestLogInButton: "button[class='header-link -guest']",
-    signInButton: "button[class*='header_signin']"
-};
+import { Homepage } from "../support/poms";
 
-const FOOTER_LOCATORS = {
-    footer: "footer[class*='footer']",
-    logoLink: "a[class='footer_logo']",
-    logoImage: "a[class='footer_logo'] svg",
-};
-
-const CONTACTS_SECTION_LOCATORS = {
-    section: "div[id='contactsSection']",
-    facebookIcon: "span[class*='icon-facebook']",
-    facebookLink: "//span[contains(@class,'icon-facebook')]/parent::a",
-    telegramIcon: "span[class*='icon-telegram']",
-    telegramLink: "//span[contains(@class,'icon-telegram')]/parent::a",
-    youtubeIcon: "span[class*='icon-youtube']",
-    youtubeLink: "//span[contains(@class,'icon-youtube')]/parent::a",
-    instagramIcon: "span[class*='icon-instagram']",
-    instagramLink: "//span[contains(@class,'icon-instagram')]/parent::a",
-    linkedinIcon: "span[class*='icon-linkedin']",
-    linkedinLink: "//span[contains(@class,'icon-linkedin')]/parent::a",
-    contactsLink: "a[class='contacts_link display-4']",
-    emailLink: "a[class='contacts_link h4']"
-};
+const homepage: Homepage = new Homepage();
 
 describe("Header tests for unauthorized user", () => {
     beforeEach(() => {
-        cy.login();
+        cy.authorizeToPortal();
     });
 
     it("Test header exists", () => {
-        cy.get(HEADER_LOCATORS.header).should("be.visible");
+        homepage.header.should("exist");
+        homepage.header.should("be.visible");
     });
 
     it("Test logo image is visible", () => {
-        cy.get(HEADER_LOCATORS.logoLink).should("exist");
-        cy.get(HEADER_LOCATORS.logoImage).should("be.visible");
+        homepage.headerLogoLink.should("exist");
+        homepage.headerLogoImage.should("be.visible");
     });
 
     it("Test navigation exists inside header", () => {
-        cy.get(HEADER_LOCATORS.header)
-        .find(HEADER_LOCATORS.navigation)
-        .should("exist");
+        homepage.navigation.should("exist");
 
     });
     it("Test Home button present in header", () => {
-        cy.get(HEADER_LOCATORS.homeLink).should("exist");
-        cy.get(HEADER_LOCATORS.homeLink).should("be.visible");
-        cy.get(HEADER_LOCATORS.homeLink).should("have.text", "Home");
+        homepage.homeLink.should("exist");
+        homepage.homeLink.should("be.visible");
+        homepage.homeLink.should("have.text", "Home");
     });
 
     it("Test About button present in header", () => {
-        cy.get(HEADER_LOCATORS.navigation)
-        .find(HEADER_LOCATORS.aboutButton)
-        .should("exist");
-        cy.get(HEADER_LOCATORS.aboutButton).should("be.visible");
-        cy.get(HEADER_LOCATORS.aboutButton).should("have.text", "About");
+        homepage.aboutButton.should("exist");
+        homepage.aboutButton.should("be.visible");
+        homepage.aboutButton.should("have.text", "About");
     });
 
     it("Test About button scrolls page to About section", () => {
         cy.window().then(win => {
             expect(win.scrollY).to.equal(0)
         });
-        cy.get(HEADER_LOCATORS.aboutButton).click();
+        homepage.aboutButton.click();
         cy.wait(3_000);
         cy.window().then(win => {
             expect(win.scrollY).to.equal(517.5);
@@ -78,19 +45,16 @@ describe("Header tests for unauthorized user", () => {
     });
 
     it("Test Contacts button present in header", () => {
-        cy.get(HEADER_LOCATORS.navigation)
-        .find(HEADER_LOCATORS.contactsButton)
-        .should("exist");
-        cy.get(HEADER_LOCATORS.contactsButton).should("be.visible");
-        cy.get(HEADER_LOCATORS.contactsButton)
-        .should("have.text", "Contacts");
+        homepage.contactsButton.should("exist");
+        homepage.contactsButton.should("be.visible");
+        homepage.contactsButton.should("have.text", "Contacts");
     });
 
     it("Test Contacts button scrolls page to Contacts section", () => {
         cy.window().then(win => {
             expect(win.scrollY).to.equal(0)
         });
-        cy.get(HEADER_LOCATORS.contactsButton).click();
+        homepage.contactsButton.click();
         cy.wait(3_000);
         cy.window().then(win => {
             expect(win.scrollY).to.equal(738);
@@ -98,39 +62,39 @@ describe("Header tests for unauthorized user", () => {
     });
 
     it("Test Guest log in button present in header", () => {
-        cy.get(HEADER_LOCATORS.header)
-        .find(HEADER_LOCATORS.guestLogInButton)
-        .should("exist");
-        cy.get(HEADER_LOCATORS.guestLogInButton).should("be.visible");
-        cy.get(HEADER_LOCATORS.guestLogInButton)
-        .should("have.text", "Guest log in");
+        homepage.guestLogInButton.should("exist");
+        homepage.guestLogInButton.should("be.visible");
+        homepage.guestLogInButton.should("have.text", "Guest log in");
     });
 
-    it("Test Contacts button present in header", () => {
-        cy.get(HEADER_LOCATORS.header)
-        .find(HEADER_LOCATORS.signInButton)
-        .should("exist");
-        cy.get(HEADER_LOCATORS.signInButton).should("be.visible");
-        cy.get(HEADER_LOCATORS.signInButton)
-        .should("have.text", "Sign In");
+
+    it("Test Guest log in button redirects to guest Garage page", () => {
+        homepage.guestLogInButton.click();
+        cy.url().should("include", "/panel/garage");
+    });
+
+    it("Test Sign In button present in header", () => {
+        homepage.signInButton.should("exist");
+        homepage.signInButton.should("be.visible");
+        homepage.signInButton.should("have.text", "Sign In");
     });
 });
 
 describe("Contacts section", () => {
     beforeEach(() => {
-        cy.login();
+        cy.authorizeToPortal();
     });
 
     it("Test Contacts section exists", () => {
-        cy.get(CONTACTS_SECTION_LOCATORS.section).should("exist");
+        homepage.contactsSection.should("exist");
     });
 
     it("Test Facebook social network link", () => {
-        cy.get(CONTACTS_SECTION_LOCATORS.facebookIcon)
+        homepage.facebookIcon
         .should("exist")
         .and("be.visible");
     
-        cy.xpath(CONTACTS_SECTION_LOCATORS.facebookLink)
+        homepage.facebookLink
         .should('have.attr', 'href')
         .then((href) => {
             expect(href).to.include('https://www.facebook.com/Hillel.IT.School');
@@ -138,11 +102,11 @@ describe("Contacts section", () => {
     });
 
     it("Test Telegram social network link", () => {
-        cy.get(CONTACTS_SECTION_LOCATORS.telegramIcon)
+        homepage.telegramIcon
         .should("exist")
         .and("be.visible");
     
-        cy.xpath(CONTACTS_SECTION_LOCATORS.telegramLink)
+        homepage.telegramLink
         .should('have.attr', 'href')
         .then((href) => {
             expect(href).to.include('https://t.me/ithillel_kyiv');
@@ -150,11 +114,11 @@ describe("Contacts section", () => {
     });
 
     it("Test youtube social network link", () => {
-        cy.get(CONTACTS_SECTION_LOCATORS.youtubeIcon)
+        homepage.youtubeIcon
         .should("exist")
         .and("be.visible");
     
-        cy.xpath(CONTACTS_SECTION_LOCATORS.youtubeLink)
+        homepage.youtubeLink
         .should('have.attr', 'href')
         .then((href) => {
             expect(href).to.include('https://www.youtube.com/user/HillelITSchool?sub_confirmation=1');
@@ -162,11 +126,11 @@ describe("Contacts section", () => {
     });
 
     it("Test instagram social network link", () => {
-        cy.get(CONTACTS_SECTION_LOCATORS.instagramIcon)
+        homepage.instagramIcon
         .should("exist")
         .and("be.visible");
-    
-        cy.xpath(CONTACTS_SECTION_LOCATORS.instagramLink)
+
+        homepage.instagramLink
         .should('have.attr', 'href')
         .then((href) => {
             expect(href).to.include('https://www.instagram.com/hillel_itschool/');
@@ -174,11 +138,11 @@ describe("Contacts section", () => {
     });
 
     it("Test linkedin social network link", () => {
-        cy.get(CONTACTS_SECTION_LOCATORS.linkedinIcon)
+        homepage.linkedinIcon
         .should("exist")
         .and("be.visible");
-    
-        cy.xpath(CONTACTS_SECTION_LOCATORS.linkedinLink)
+
+        homepage.linkedinLink
         .should('have.attr', 'href')
         .then((href) => {
             expect(href).to.include('https://www.linkedin.com/school/ithillel/');
@@ -186,7 +150,7 @@ describe("Contacts section", () => {
     });
 
     it("Test contacts website link", () => {
-        cy.get(CONTACTS_SECTION_LOCATORS.contactsLink)
+        homepage.contactsLink
         .should("exist")
         .and("be.visible")
         .and("have.text", "ithillel.ua")
@@ -197,7 +161,7 @@ describe("Contacts section", () => {
     });
 
     it("Test email link", () => {
-        cy.get(CONTACTS_SECTION_LOCATORS.emailLink)
+        homepage.emailLink
         .should("exist")
         .and("be.visible")
         .and("have.text", "support@ithillel.ua")
@@ -210,16 +174,16 @@ describe("Contacts section", () => {
 
 describe("Footer tests for unauthorized user", () => {
     beforeEach(() => {
-        cy.login();
+        cy.authorizeToPortal();
     });
 
     it("Test footer exists", () => {
-        cy.get(FOOTER_LOCATORS.footer).should("be.visible");
+        homepage.footer.should("be.visible");
     });
 
     it("Test logo image is visible", () => {
-        cy.get(FOOTER_LOCATORS.logoLink).should("exist");
-        cy.get(FOOTER_LOCATORS.logoImage).should("be.visible");
+        homepage.footerLogoLink.should("exist");
+        homepage.footerLogoImage.should("be.visible");
     });
 });
 
