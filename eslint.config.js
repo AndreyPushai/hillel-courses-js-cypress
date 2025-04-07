@@ -26,5 +26,5 @@ export default [
             "cypress/no-unnecessary-waiting": "off"
         }
     },
-    {ignores: ["dist/"]}
+    {ignores: ["dist/", "cypress/reports/"]}
 ];

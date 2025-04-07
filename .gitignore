@@ -3,3 +3,4 @@ dist/
 cypress/screenshots
 cypress/downloads
 cypress/videos
+cypress/reports

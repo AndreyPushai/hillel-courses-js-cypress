@@ -1,7 +1,9 @@
-export default class LoginPopUp {
+import BasePopUp from "./BasePopUp";
+
+export default class LoginPopUp extends BasePopUp{
 
     protected LOCATORS = {
-        popUp: "div[class*='modal-dialog']",
+        ...this.LOCATORS,
         emailInput: "input[id='signinEmail']",
         passwordInput: "input[id='signinPassword']",
         registrationButton: {element: "button", text: "Registration"},
@@ -9,27 +11,23 @@ export default class LoginPopUp {
 
     };
 
-    get popUp() {
-        return cy.get(this.LOCATORS.popUp);
-    };
-
     get emailInput() {
-        return cy.get(this.LOCATORS.emailInput);
+        return this.popUp.find(this.LOCATORS.emailInput);
     };
 
     get passwordInput() {
-        return cy.get(this.LOCATORS.passwordInput);
+        return this.popUp.find(this.LOCATORS.passwordInput);
     };
 
     get registrationButton() {
-        return cy.contains(
+        return this.popUp.contains(
             this.LOCATORS.registrationButton.element,
             this.LOCATORS.registrationButton.text
         );
     };
 
     get loginButton() {
-        return cy.contains(
+        return this.popUp.contains(
             this.LOCATORS.loginButton.element,
             this.LOCATORS.loginButton.text
         );

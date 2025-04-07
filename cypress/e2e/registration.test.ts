@@ -21,10 +21,9 @@ describe("Positive Registration flow", () => {
         registrationPopUp.fillAndSubmitForm(
             "name", "lastName", `test+${ts}@email.com`, "Password1");
         cy.url().should("include", "/panel/garage");
+
+        cy.removeAccount();
     });
-
-    //it("", () => {})
-
 });
 
 describe("Negative Registration flow", () => {
