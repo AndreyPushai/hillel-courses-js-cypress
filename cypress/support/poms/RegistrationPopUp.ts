@@ -1,8 +1,9 @@
-export default class RegistrationPopUp {
+import BasePopUp from "./BasePopUp";
 
-    protected LOCATORS = {
-        popUp: "div[class*='modal-dialog']",
-        popUpTitle: "[class='modal-title']",
+export default class RegistrationPopUp extends BasePopUp {
+
+    public LOCATORS = {
+        ...this.LOCATORS,
         nameInput: "input[id='signupName']",
         nameInputError: "div[class='form-group']:has(input[id='signupName']) div[class='invalid-feedback'] p",
         lastNameInput: "input[id='signupLastName']",
@@ -17,56 +18,48 @@ export default class RegistrationPopUp {
 
     };
 
-    get popUp() {
-        return cy.get(this.LOCATORS.popUp);
-    };
-
-    get popUpTitle() {
-        return cy.get(this.LOCATORS.popUpTitle);
-    };
-
     get nameInput() {
-         return cy.get(this.LOCATORS.nameInput);
+         return this.popUp.get(this.LOCATORS.nameInput);
     };
 
     get nameInputError() {
-        return cy.get(this.LOCATORS.nameInputError);
+        return this.popUp.get(this.LOCATORS.nameInputError);
     };
 
     get lastNameInput() {
-         return cy.get(this.LOCATORS.lastNameInput);
+         return this.popUp.get(this.LOCATORS.lastNameInput);
     };
 
     get lastNameInputError() {
-        return cy.get(this.LOCATORS.lastNameInputError);
+        return this.popUp.get(this.LOCATORS.lastNameInputError);
     };
 
     get emailInput() {
-         return cy.get(this.LOCATORS.emailInput);
+         return this.popUp.get(this.LOCATORS.emailInput);
     };
 
     get emailInputError() {
-        return cy.get(this.LOCATORS.emailInputError);
+        return this.popUp.get(this.LOCATORS.emailInputError);
     };
 
     get passwordInput() {
-         return cy.get(this.LOCATORS.passwordInput);
+         return this.popUp.get(this.LOCATORS.passwordInput);
     };
 
     get passwordInputError() {
-        return cy.get(this.LOCATORS.passwordInputError);
+        return this.popUp.get(this.LOCATORS.passwordInputError);
     };
 
     get repeatPasswordInput() {
-         return cy.get(this.LOCATORS.repeatPasswordInput);
+         return this.popUp.get(this.LOCATORS.repeatPasswordInput);
     };
 
     get repeatPasswordInputError() {
-        return cy.get(this.LOCATORS.repeatPasswordInputError);
+        return this.popUp.get(this.LOCATORS.repeatPasswordInputError);
     };
 
     get registerButton() {
-        return cy.contains(
+        return this.popUp.contains(
             this.LOCATORS.registerButton.element,
             this.LOCATORS.registerButton.text
         );
