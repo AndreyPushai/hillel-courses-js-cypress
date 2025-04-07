@@ -1,5 +1,9 @@
 import {
-    LoginPopUp, Homepage
+    LoginPopUp,
+    Homepage,
+    RemoveAccountPopUp,
+    SettingsPage,
+    Sidebar,
 } from "./poms";
 
 // ***********************************************
@@ -15,7 +19,7 @@ import {
 //
 // -- This is a parent command --
 Cypress.Commands.add('authorizeToPortal', (email=Cypress.env("username"), password=Cypress.env("password")) => {
-    cy.visit("https://qauto.forstudy.space", {
+    cy.visit("", {
         auth: {
             username: email,
             password: password
@@ -25,8 +29,8 @@ Cypress.Commands.add('authorizeToPortal', (email=Cypress.env("username"), passwo
 
 
 Cypress.Commands.add('login', (email, password) => {
-    cy.authorizeToPortal();
 
+    cy.authorizeToPortal();
     const homepage = new Homepage();
     homepage.signInButton.click();
 
@@ -35,6 +39,22 @@ Cypress.Commands.add('login', (email, password) => {
 
 });
 
+Cypress.Commands.add('removeAccount', () => {
+
+    const sidebar = new Sidebar();
+    sidebar.settingsLink.click();
+    cy.url().should("contain", "/panel/settings");
+
+    const settingsPage = new SettingsPage();
+    settingsPage.removeMyAccountButton.click();
+
+    const removeAccountPopUp = new RemoveAccountPopUp();
+    removeAccountPopUp
+    .popUpTitle.should("have.text", "Remove account");
+    removeAccountPopUp.removeButton.click();
+
+    cy.url().should("contain", Cypress.config("baseUrl"));
+});
 
 Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
   if (options && options.sensitive) {
