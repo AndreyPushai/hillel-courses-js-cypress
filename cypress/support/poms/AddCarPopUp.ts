@@ -15,7 +15,7 @@ export default class AddCarPopUp extends BasePopUp {
         ...this.LOCATORS,
         brandSelect: "select[id='addCarBrand']",
         modelSelect: "select[id='addCarModel']",
-        milageInput: "input[id='addCarMileage']",
+        mileageInput: "input[id='addCarMileage']",
         addButton: {element: "button", text: "Add"},
     };
 
@@ -27,8 +27,8 @@ export default class AddCarPopUp extends BasePopUp {
         return this.popUp.find(this.LOCATORS.modelSelect);
     };
 
-    get milageInput() {
-        return this.popUp.find(this.LOCATORS.milageInput);
+    get mileageInput() {
+        return this.popUp.find(this.LOCATORS.mileageInput);
     };
 
     get addButton() {
@@ -49,10 +49,10 @@ export default class AddCarPopUp extends BasePopUp {
     selectCar<Brand extends keyof CarModels>(
         brand: Brand,
         model: CarModels[Brand],
-        milage: string | number
+        mileage: string | number
     ): void {
         this.selectBrand(brand);
         this.selectModel(model);
-        this.milageInput.type(milage);
+        this.mileageInput.type(mileage);
     };
 };

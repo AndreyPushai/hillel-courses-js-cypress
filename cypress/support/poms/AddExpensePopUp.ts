@@ -6,7 +6,7 @@ export default class AddExpensePopUp extends BasePopUp {
         ...this.LOCATORS,
         vehicleSelect: "select[id='addExpenseCar']",
         reportDateInput: "input[id='addExpenseDate']",
-        milageInput: "input[id='addExpenseMileage']",
+        mileageInput: "input[id='addExpenseMileage']",
         litersInput: "input[id='addExpenseLiters']",
         totalCostInput: "input[id='addExpenseTotalCost']",
         addButton: {element: "button", text: "Add"}
@@ -20,8 +20,8 @@ export default class AddExpensePopUp extends BasePopUp {
 		return this.popUp.find(this.LOCATORS.reportDateInput);
 	};
 
-	get milageInput() {
-		return this.popUp.find(this.LOCATORS.milageInput);
+	get mileageInput() {
+		return this.popUp.find(this.LOCATORS.mileageInput);
 	};
 
 	get litersInput() {
@@ -40,12 +40,12 @@ export default class AddExpensePopUp extends BasePopUp {
     };
 
     fillAndSubmit(
-        milage: number | string,
+        mileage: number | string,
         litersNumber: number | string,
         totalCost: number | string
     ): void {
 
-        this.milageInput.clear().type(milage);
+        this.mileageInput.clear().type(mileage);
         this.litersInput.type(litersNumber);
         this.totalCostInput.type(totalCost);
         this.addButton.click();

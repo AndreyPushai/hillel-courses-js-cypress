@@ -4,8 +4,8 @@ export default class CarItem {
         carName: "p[class*='car_name']",
         editButton: "button[class*='car_edit']",
         addFuelExpenseButton: "button[class*='car_add-expense']",
-        updateMilageInput: "input[class*='update-mileage']",
-        updateMilageButton: "button[class*='update-mileage']",
+        updateMileageInput: "input[class*='update-mileage']",
+        updateMileageButton: "button[class*='update-mileage']",
     };
 
 	get item() {
@@ -20,10 +20,10 @@ export default class CarItem {
 	get addFuelExpenseButton() {
 		return this.item.find(this.LOCATORS.addFuelExpenseButton);
 	};
-	get updateMilageInput() {
-		return this.item.find(this.LOCATORS.updateMilageInput);
+	get updateMileageInput() {
+		return this.item.find(this.LOCATORS.updateMileageInput);
 	};
-	get updateMilageButton() {
-		return this.item.find(this.LOCATORS.updateMilageButton);
+	get updateMileageButton() {
+		return this.item.find(this.LOCATORS.updateMileageButton);
 	};
 };
