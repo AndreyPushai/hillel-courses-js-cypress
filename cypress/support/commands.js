@@ -39,6 +39,75 @@ Cypress.Commands.add('login', (email, password) => {
 
 });
 
+
+
+Cypress.Commands.add("signinWithAPI", (
+    email=Cypress.env().user1.email,
+    password=Cypress.env().user1.password
+) => {
+
+    return cy.request({
+        method: "POST",
+        url: "api/auth/signin",
+        body: {
+            "email": email,
+            "password": password,
+            "remember": false
+        }
+
+    })
+    .then(response => {
+        expect(response.status).to.equal(200);
+        return cy.setCookie('sid', response.headers['set-cookie'][0].split('=')[1].split(';').shift())
+    });
+});
+
+
+Cypress.Commands.add("getCarsAPI", () => {
+    return cy.request("GET", "api/cars").then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response.body.data);
+    });
+});
+
+
+Cypress.Commands.add("createExpensesAPI", (
+    carId,
+    date,
+    mileage,
+    liters,
+    totalCost
+) => {
+    return cy.request({
+        method: "POST",
+        url: "api/expenses",
+        body: {
+            "carId": carId,
+            "reportedAt": date,
+            "mileage": mileage,
+            "liters": liters,
+            "totalCost": totalCost,
+            "forceMileage": false
+        }
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response.body.data);
+    });
+});
+
+
+Cypress.Commands.add("deleteCarWithAPI", (carId) => {
+
+    cy.request({
+        url: `/api/cars/${carId}`,
+        method: 'DELETE',
+    }).then(response => {
+        expect(response.status).to.equal(200);
+        expect(response.body.data.carId).to.equal(carId)
+    });
+});
+
+
 Cypress.Commands.add('removeAccount', () => {
 
     const sidebar = new Sidebar();
@@ -70,6 +139,8 @@ Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
 
   return originalFn(element, text, options)
 })
+
+
 //
 // -- This is a child command --
 // Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
