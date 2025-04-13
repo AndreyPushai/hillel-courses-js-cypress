@@ -18,7 +18,7 @@ export default class FuelExpensesRow {
         return this.row.get("td").eq(0);
     };
 
-    get milage() {
+    get mileage() {
         return this.row.get("td").eq(1);
     };
 
