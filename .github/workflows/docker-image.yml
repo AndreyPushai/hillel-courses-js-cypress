@@ -1,0 +1,30 @@
+name: Docker Image CI
+
+on:
+  # schedule:
+  #   - cron: "*/30 * * * *"
+  push:
+    branches:
+      - "*"
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  tests: 
+    name: 'Cypress E2E tests'
+    runs-on: ubuntu-latest
+    container:
+      image: node:22-slim
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
+      - name: Install dependencies
+        run: npm ci
+      - uses: cypress-io/github-action@v6
+        with:
+          browser: electron
+      - name: Run tests
+        run:
+          npm run cy_run_qauto
