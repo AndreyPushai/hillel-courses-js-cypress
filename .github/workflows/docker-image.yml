@@ -24,7 +24,4 @@ jobs:
         run: npm ci
       - uses: cypress-io/github-action@v6
         with:
-          browser: electron
-      - name: Run tests
-        run:
-          npm run cy_run_qauto
+          browser: firefox
